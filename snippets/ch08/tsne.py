@@ -1,5 +1,5 @@
 import os
-from sklearn.datasets.base import Bunch
+from sklearn.utils import Bunch
 from yellowbrick.text import TSNEVisualizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 

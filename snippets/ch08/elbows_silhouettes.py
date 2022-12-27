@@ -1,6 +1,6 @@
 import os
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from sklearn.datasets.base import Bunch
+from sklearn.utils import Bunch
 from yellowbrick.cluster import SilhouetteVisualizer, KElbowVisualizer
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -60,16 +60,17 @@ def load_corpus(name, download=True):
         target=target,
     )
 
-corpus = load_corpus('hobbies')
-tfidf  = TfidfVectorizer(stop_words='english')
-docs   = tfidf.fit_transform(corpus.data)
+if __name__ == '__main__':
+    corpus = load_corpus('hobbies')
+    tfidf  = TfidfVectorizer(stop_words='english')
+    docs   = tfidf.fit_transform(corpus.data)
 
-# Instantiate the clustering model and visualizer
-visualizer = SilhouetteVisualizer(KMeans(n_clusters=6))
-visualizer.fit(docs)
-visualizer.poof()
+    # Instantiate the clustering model and visualizer
+    visualizer = SilhouetteVisualizer(KMeans(n_clusters=6))
+    visualizer.fit(docs)
+    visualizer.poof()
 
-# Instantiate the clustering model and visualizer
-visualizer = KElbowVisualizer(KMeans(), metric='silhouette', k=[4,10])
-visualizer.fit(docs)
-visualizer.poof()
+    # Instantiate the clustering model and visualizer
+    visualizer = KElbowVisualizer(KMeans(), metric='silhouette', k=[4,10])
+    visualizer.fit(docs)
+    visualizer.poof()

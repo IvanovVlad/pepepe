@@ -1,7 +1,7 @@
 import os
 
 import nltk.corpus
-from sklearn.datasets.base import Bunch
+from sklearn.utils import Bunch
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
@@ -67,32 +67,32 @@ def load_corpus(name, download=True):
         target=target,
     )
 
+if __name__ == '__main__':
+    # Load the data and create document vectors
+    corpus = load_corpus('tech')
+    tfidf = TfidfVectorizer()
 
-# Load the data and create document vectors
-corpus = nltk.corpus.genesis
-tfidf = TfidfVectorizer()
+    docs = tfidf.fit_transform(corpus.data)
+    labels = corpus.target
 
-docs = tfidf.fit_transform(corpus.data)
-labels = corpus.target
+    X_train, X_test, y_train, y_test = train_test_split(docs.toarray(), labels, test_size=0.2, random_state=42)
 
-X_train, X_test, y_train, y_test = train_test_split(docs.toarray(), labels, test_size=0.2, random_state=42)
+    visualizer = ClassificationReport(GaussianNB(), classes=corpus.categories)
+    visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+    visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+    visualizer.poof()
 
-visualizer = ClassificationReport(GaussianNB(), classes=corpus.categories)
-visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
-visualizer.score(X_test, y_test)  # Evaluate the model on the test data
-visualizer.poof()
+    visualizer = ClassificationReport(SGDClassifier(), classes=corpus.categories)
+    visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+    visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+    visualizer.poof()
 
-visualizer = ClassificationReport(SGDClassifier(), classes=corpus.categories)
-visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
-visualizer.score(X_test, y_test)  # Evaluate the model on the test data
-visualizer.poof()
+    visualizer = ConfusionMatrix(LogisticRegression(), classes=corpus.categories)
+    visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+    visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+    visualizer.poof()
 
-visualizer = ConfusionMatrix(LogisticRegression(), classes=corpus.categories)
-visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
-visualizer.score(X_test, y_test)  # Evaluate the model on the test data
-visualizer.poof()
-
-visualizer = ConfusionMatrix(MultinomialNB(), classes=corpus.categories)
-visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
-visualizer.score(X_test, y_test)  # Evaluate the model on the test data
-visualizer.poof()
+    visualizer = ConfusionMatrix(MultinomialNB(), classes=corpus.categories)
+    visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+    visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+    visualizer.poof()

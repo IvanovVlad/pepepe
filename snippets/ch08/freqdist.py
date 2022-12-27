@@ -2,7 +2,7 @@ import os
 
 from yellowbrick.text.freqdist import FreqDistVisualizer
 
-from sklearn.datasets.base import Bunch
+from sklearn.utils import Bunch
 from sklearn.feature_extraction.text import CountVectorizer
 
 # The path to the test data sets
